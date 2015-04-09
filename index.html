@@ -130,10 +130,127 @@ gulp.task('clean', function(cb) {
 				</section>
 
 
+				<section>
+					<h2>API Wrapper</h2>
+					<ul>
+						<li>A wrapper around cordova-lib that provides a coherent OOP API</li>
+						<li>Centered around a PlatformProject object that deals with a single platform - represents what traditionally lives under <code>platforms/&lt;platform&gt;/*</code> </li>
+					</ul>
+
+				</section>
+
+				<section>
+						<h3>Sample App Structure</h3>
+						<ul>
+							<li>package.json</li>
+							<li>gulpfile.js</li>
+							<li>www/</li>
+							<li>CordovaConfig.xml - Cordova's config.xml file</li>
+
+							<li>build/ - build artifacts, nuked on every "clean"
+								<ul>
+									<li>build/android</li>
+									<li>build/ios</li>
+									<li>...</li>
+								</ul>
+							</li>
+						</ul>
+				</section>
+
+				<section>
+						<h2>package.json</h2>
+						<pre><code data-trim contenteditable>
+
+"dependencies": {
+    "CordovaPlatformProject": "kamrik/CordovaPlatformProject",
+
+    "cordova-android": "latest",
+    "cordova-ios": "latest",
+    "cordova-plugin-dialogs": "latest"
+    ...
+}
+						</code></pre>
+						<p>Note: plugin interdeps will still require some manual handling</p>
+				</section>
 
 
+				<section>
+						<h2>gulpfile.js - setup</h2>
+						<pre><code data-trim contenteditable>
+var pp = require('CordovaPlatformProject'); // The API Wrapper
+
+var prjInfo = {
+    platform: 'ios',
+    paths: {
+        root: 'build/ios',
+        template: 'node_modules/cordova-ios',
+        www: 'www'
+    },
+    cfg: pp.cdv.ConfigParser('CordovaConfig.xml');
+};
+						</code></pre>
+				</section>
+
+				<section>
+					<h2>gulpfile.js - create & add plugins</h2>
+					<pre><code data-trim contenteditable>
+gulp.task('create', ['clean'], function() {
+    fs.mkdirSync('build');
+
+    return prj.init(prjInfo)
+    .then(function(){
+        return prj.addPluginsFrom('./node_modules');
+    });
+});
+					</code></pre>
+				</section>
 
 
+				<section>
+					<h2>gulpfile.js - build</h2>
+					<pre><code data-trim contenteditable>
+gulp.task('build', [], function() {
+    var prj = new pp.PlatformProject();
+    return prj.open(platform, prjInfo.paths.root)
+    .then(function() {
+        return prj.updateConfig(prjInfo.cfg);
+    })
+    .then(function() {
+        return prj.copyWww(prjInfo.paths.www);
+        // Or copy yourself to prj.wwwDir
+    })
+    .then(function() {
+        return prj.build();
+    });
+});
+
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>gulpfile.js - run</h2>
+					<pre><code data-trim contenteditable>
+gulp.task('run', function() {
+    var prj = new pp.PlatformProject();
+    return prj.open(platform, prjInfo.paths.root)
+        .then(function() {
+            return prj.run({args: ['--device', '--nobuild']});
+        });
+});
+
+					</code></pre>
+				</section>
+
+				<section>
+						<h2>Usage</h2>
+						<pre><code data-trim contenteditable>
+$ git clone https://github.com/kamrik/cordova-api-example.git .
+$ npm install
+$ gulp create
+$ gulp build
+$ gulp run
+						</code></pre>
+				</section>
 
 
 
