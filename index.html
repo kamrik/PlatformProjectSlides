@@ -59,6 +59,63 @@
 				</section>
 
 				<section>
+					<h1>TODO: Too fast meme</h1>
+				</section>
+
+				<section>
+					<h2>Pain points</h2>
+					<ul>
+						<li>Doing things better done by other tools (fetching, dep management)</li>
+						<li>Difficult to combine with other webdev tools like Sass and CoffeScript</li>
+						<li>Too prescriptive and wastes our time debating how exactly to over-specify Cordova user's environment</li>
+						<li>Not git friendly (platforms and plugins dirs)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Rephrased positively</h2>
+					<h4>I want Cordova tooling to be:</h4>
+					<ol>
+						<li>Simpler and much smaller</li>
+						<li>Friendly to webdev tools and existing web apps</li>
+						<li>Very friendly to task runners like Grunt and Gulp</li>
+					</ol>
+				</section>
+
+				<section>
+					<h2>Side note about Gulp</h2>
+					I'll be using Gulp for code examples in this presentation. Since Gulp tasks are just JS functions, it can be trivially translated to pure JS scripts.
+				</section>
+
+				<section>
+					<h2>Gulp crash course</h2>
+					<div style="float:right">
+						<a class="image" href="http://gulpjs.com/" target="_blank">
+						<img width="66" height="150" src="GulpLogo.png" alt="Gulp logo">
+						</a>
+					</div>
+					<p>
+						<ul>
+							<li>Gulp is minimal, liberal and simple task runner</li>
+							<li>Gulpfile is a JS file that can contain any code</li>
+							<li>Way less declarative than Grunt</li>
+							<li>Very easy to experiment and prototype with</li>
+							<li>Based on <a href="https://github.com/substack/stream-handbook">streams</a> but I don't really care</li>
+						</ul>
+					</p>
+					<br/>
+
+					A typical "clean" task in Gulp.
+					<pre><code data-trim contenteditable>
+gulp.task('clean', function(cb) {
+  del(['./build'], cb);
+});
+					</code></pre>
+
+					<p><small>Take a loot at <a href="http://gulpjs.com/">gulpjs.com</a> or a <a href="https://medium.com/@contrahacks/gulp-3828e8126466">presentatioin about Gulp</a></small></p>
+				</section>
+
+				<section>
 					<h2>Hello There</h2>
 					<p>
 						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
