@@ -41,8 +41,8 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Cordova CLI vs API</h1>
-					<h3>Smaller but better tooling</h3>
+					<h1>Cordova tooling - API</h1>
+					<h3>Experimental API for better development workflows</h3>
 					<p>
 						<small>By Mark Koudritsky - kamrik@google.com / <a href="https://github.com/kamrik">GitHub</a></small>
 					</p>
@@ -59,24 +59,20 @@
 				</section>
 
 				<section>
-					<h1>TODO: Too fast meme</h1>
-				</section>
-
-				<section>
-					<h2>Pain points</h2>
+					<h2>Cordova CLI does too many things!</h2>
 					<ul>
-						<li>Doing things better done by other tools (fetching, dep management)</li>
+						<li>Some tasks better done by other tools (e.g. fetching)</li>
 						<li>Difficult to combine with other webdev tools like Sass and CoffeScript</li>
 						<li>Too prescriptive and wastes our time debating how exactly to over-specify Cordova user's environment</li>
-						<li>Not git friendly (platforms and plugins dirs)</li>
+						<li>Not very git friendly (platforms and plugins dirs)</li>
 					</ul>
 				</section>
 
 				<section>
 					<h2>Rephrased positively</h2>
-					<h4>I want Cordova tooling to be:</h4>
+					<h4>I want Cordova tooling to be</h4>
 					<ol>
-						<li>Simpler and much smaller</li>
+						<li>Simpler, smaller and more flexible</li>
 						<li>Friendly to webdev tools and existing web apps</li>
 						<li>Very friendly to task runners like Grunt and Gulp</li>
 					</ol>
@@ -127,6 +123,12 @@ gulp.task('clean', function(cb) {
 							                 github.com/kamrik/cordova-api-example</a>
 						</li>
 					</ul>
+
+					<p>Evolved from the previous iteration at:
+					<br/>
+					<a href="https://github.com/kamrik/CordovaGulpTemplate">
+							                 github.com/kamrik/CordovaGulpTemplate</a>
+							                </p>
 				</section>
 
 
@@ -170,7 +172,6 @@ gulp.task('clean', function(cb) {
     ...
 }
 						</code></pre>
-						<p>Note: plugin interdeps will still require some manual handling</p>
 				</section>
 
 
@@ -207,7 +208,7 @@ gulp.task('create', ['clean'], function() {
 
 
 				<section>
-					<h2>gulpfile.js - build</h2>
+					<h2>gulpfile.js - build & run</h2>
 					<pre><code data-trim contenteditable>
 gulp.task('build', [], function() {
     var prj = new pp.PlatformProject();
@@ -220,22 +221,9 @@ gulp.task('build', [], function() {
         // Or copy yourself to prj.wwwDir
     })
     .then(function() {
-        return prj.build();
+    	// This runs ./build/<platform>/cordova/run --device
+        return prj.run({args: ['--device']});
     });
-});
-
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>gulpfile.js - run</h2>
-					<pre><code data-trim contenteditable>
-gulp.task('run', function() {
-    var prj = new pp.PlatformProject();
-    return prj.open(platform, prjInfo.paths.root)
-        .then(function() {
-            return prj.run({args: ['--device', '--nobuild']});
-        });
 });
 
 					</code></pre>
@@ -247,9 +235,58 @@ gulp.task('run', function() {
 $ git clone https://github.com/kamrik/cordova-api-example.git .
 $ npm install
 $ gulp create
-$ gulp build
-$ gulp run
+$ gulp run  # repeat after changing files in www
+
 						</code></pre>
+				</section>
+
+
+				<section>
+						<h2>Add / remove a plugin</h2>
+						<pre><code data-trim contenteditable>
+$ gulp clean
+$ npm (un)install --save cordova-plugin-xyz
+$ gulp create
+						</code></pre>
+						Note: Peer dependencies not yet added to plugins on npm
+				</section>
+
+				<section>
+					<h2>Notable points</h2>
+					<ul>
+						<li>Using ConfigParser from cordova-lib directly. The loaded object can be manipulated in JS to customize workflow</li>
+						<li>Using PluginInfo objects from cordova-lib directly</li>
+						<li>Project hooks are no longer needed</li>
+						<li>Plugin hooks might still be needed</li>
+
+					</ul>
+				</section>
+
+				<section>
+					<h2>Next Steps</h2>
+					<ul>
+						<li>Evolve PlatformProject and polish the API</li>
+						<li>Minimize code duplication, though some duplication is unavoidable in this case</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Future improvements</h2>
+					<ul>
+						<li>ConfigParser from App manifest and other files</li>
+						<li>Improved PluginInfo object and plugin handling functionality</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Questions?</h2>
+				</section>
+
+				<section>
+					<h1>THE END</h1>
+					<p>
+						<a href="https://github.com/kamrik/cordova-api-example">github.com/kamrik/cordova-api-example</a>
+					</p>
 				</section>
 
 
