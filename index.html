@@ -59,9 +59,8 @@
 				</section>
 
 				<section>
-					<h2>Cordova CLI does too many things!</h2>
+					<h2>Some pain points of Cordova tooling</h2>
 					<ul>
-						<li>Some tasks better done by other tools (e.g. fetching)</li>
 						<li>Difficult to combine with other webdev tools like Sass and CoffeScript</li>
 						<li>Too prescriptive and wastes our time debating how exactly to over-specify Cordova user's environment</li>
 						<li>Not very git friendly (platforms and plugins dirs)</li>
@@ -69,13 +68,12 @@
 				</section>
 
 				<section>
-					<h2>Rephrased positively</h2>
-					<h4>I want Cordova tooling to be</h4>
-					<ol>
-						<li>Simpler, smaller and more flexible</li>
-						<li>Friendly to webdev tools and existing web apps</li>
-						<li>Very friendly to task runners like Grunt and Gulp</li>
-					</ol>
+					<h2>Cordova via the API</h2>
+					<ul>
+						<li>More flexible</li>
+						<li>Works better with existing web dev workflows</li>
+					</ul>
+
 				</section>
 
 				<section>
@@ -137,6 +135,7 @@ gulp.task('clean', function(cb) {
 					<ul>
 						<li>A wrapper around cordova-lib that provides a coherent OOP API</li>
 						<li>Centered around a PlatformProject object that deals with a single platform - represents what traditionally lives under <code>platforms/&lt;platform&gt;/*</code> </li>
+						<li>Is experimental!</li>
 					</ul>
 
 				</section>
