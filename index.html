@@ -186,7 +186,7 @@ var prjInfo = {
         template: 'node_modules/cordova-ios',
         www: 'www'
     },
-    cfg: pp.cdv.ConfigParser('CordovaConfig.xml');
+    cfg: new pp.cdv.ConfigParser('CordovaConfig.xml');
 };
 						</code></pre>
 				</section>
@@ -196,10 +196,15 @@ var prjInfo = {
 					<pre><code data-trim contenteditable>
 gulp.task('create', ['clean'], function() {
     fs.mkdirSync('build');
+    var proj = new pp.PlatformProject();
 
     return prj.init(prjInfo)
     .then(function(){
         return prj.addPluginsFrom('./node_modules');
+    }).then(function(){
+        return proj.updateConfig(prjInfo.cfg);
+    }).then(function(){
+        return proj.copyWww(prjInfo.paths.www);
     });
 });
 					</code></pre>
